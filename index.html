@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SHADOW CURRENT — Outerwear charged for the dark hours</title>
+<meta name="description" content="SHADOW CURRENT — limited-run technical outerwear engineered for motion after dark. Static-dissipating weave, electric-blue thread, ink-black shell.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('anim');</script>
+<style>
+  :root{
+    --ink:#07080a;
+    --ink-soft:#0d0f13;
+    --paper:#f4f5f7;
+    --blue:#2f8dff;
+    --blue-soft:#7fb6ff;
+    --white:#ffffff;
+    --e-expo:cubic-bezier(.16,1,.3,1);
+    --e-quint:cubic-bezier(.22,1,.36,1);
+    --e-slow:cubic-bezier(.4,0,.2,1);
+    --u: 1px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{background:var(--ink)}
+  body{
+    background:var(--ink);
+    color:var(--white);
+    font-family:'Inter', system-ui, sans-serif;
+    overflow-x:hidden;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,.display{font-family:'Space Grotesk', 'Inter', sans-serif}
+  a{color:inherit; text-decoration:none}
+  img,video{display:block; max-width:100%}
+  button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
+  ::selection{background:var(--blue); color:#fff}
+
+  .u-container{width:min(1280px, 92vw); margin-inline:auto}
+
+  /* ---------- NAV ---------- */
+  .navbar{
+    position:absolute; inset:0 0 auto 0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: clamp(16px,2.4vh,26px) clamp(20px,4vw,48px);
+    background:rgba(7,8,10,0);
+    backdrop-filter:blur(0px); -webkit-backdrop-filter:blur(0px);
+    border-bottom:1px solid rgba(255,255,255,0);
+    transition:background .4s var(--e-slow), backdrop-filter .4s var(--e-slow), border-color .4s var(--e-slow);
+  }
+  .navbar.is-solid{
+    background:rgba(7,8,10,.72);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .logo{
+    font-family:'Space Grotesk'; font-weight:700; font-size:15px;
+    letter-spacing:.14em; text-transform:uppercase; display:flex; align-items:center; gap:9px;
+  }
+  .logo .dot{width:7px; height:7px; border-radius:50%; background:var(--blue); box-shadow:0 0 12px 2px rgba(47,141,255,.75)}
+  .links{display:flex; align-items:center; gap:clamp(18px,3vw,36px)}
+  .links a{
+    font-size:13px; font-weight:500; letter-spacing:.03em; color:rgba(255,255,255,.72);
+    position:relative; padding-bottom:3px; transition:color .3s var(--e-slow);
+  }
+  .links a:hover{color:#fff}
+  .links a:not(.pill)::after{
+    content:''; position:absolute; left:0; right:0; bottom:0; height:1px; background:var(--blue);
+    transform:scaleX(0); transform-origin:left; transition:transform .35s var(--e-expo);
+  }
+  .links a:not(.pill):hover::after{transform:scaleX(1)}
+  .links a.pill, .mobile-menu a.pill{
+    padding:10px 20px; border-radius:999px; font-size:12.5px; font-weight:600; letter-spacing:.04em;
+    background:linear-gradient(180deg, #fff, #d8e6ff);
+    color:#06070a;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 8px 24px -8px rgba(47,141,255,.55);
+    transition:transform .35s var(--e-quint), box-shadow .35s var(--e-quint);
+  }
+  .pill:hover{transform:translateY(-1px); box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 12px 28px -8px rgba(47,141,255,.75)}
+
+  .burger{display:none; width:40px; height:40px; align-items:center; justify-content:center; position:relative; z-index:60}
+  .burger span, .burger span::before, .burger span::after{
+    content:''; position:absolute; width:20px; height:1.5px; background:#fff; transition:transform .35s var(--e-expo), opacity .25s;
+  }
+  .burger span{top:50%; left:50%; transform:translate(-50%,-50%)}
+  .burger span::before{top:-6px; left:0}
+  .burger span::after{top:6px; left:0}
+  .nav-open .burger span{background:transparent}
+  .nav-open .burger span::before{transform:rotate(45deg) translate(0,0); top:0}
+  .nav-open .burger span::after{transform:rotate(-45deg); top:0}
+
+  .mobile-menu{
+    position:fixed; inset:0; z-index:45; background:rgba(7,8,10,.98);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px;
+    height:0; overflow:hidden; opacity:0;
+    transition:height .5s var(--e-expo), opacity .4s var(--e-expo);
+  }
+  .nav-open .mobile-menu{height:100vh; opacity:1}
+  .mobile-menu a{font-family:'Space Grotesk'; font-size:26px; font-weight:600}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; height:100svh; min-height:560px; width:100%;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    overflow:hidden; background:var(--ink);
+    perspective:1600px;
+  }
+  .hero-stage{position:absolute; inset:0; z-index:0; transform-style:preserve-3d; will-change:transform}
+  .hero-media{position:absolute; inset:-4%; z-index:0}
+  .hero-media video, .hero-media img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 42%;
+  }
+  .hero-media img{z-index:1; transition:opacity .6s ease}
+  .hero-media video{z-index:2; opacity:0; transition:opacity .8s ease}
+  .hero-media video.is-ready{opacity:1}
+  .hero-glow{
+    position:absolute; left:46%; top:44%; width:62%; aspect-ratio:1/1; z-index:2;
+    transform:translate(-50%,-50%); border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle, rgba(79,160,255,.55) 0%, rgba(47,141,255,.22) 42%, rgba(47,141,255,0) 72%);
+    mix-blend-mode:screen; filter:blur(14px);
+    animation:glowPulse 4.5s var(--e-slow) infinite;
+  }
+  @keyframes glowPulse{
+    0%,100%{opacity:.4; transform:translate(-50%,-50%) scale(1)}
+    50%{opacity:.75; transform:translate(-50%,-50%) scale(1.1)}
+  }
+  .hero-scrim{
+    position:absolute; inset:0; z-index:3;
+    background:
+      linear-gradient(180deg, rgba(5,6,8,.55) 0%, rgba(5,6,8,0) 26%, rgba(5,6,8,0) 55%, rgba(5,6,8,.65) 85%, rgba(5,6,8,.92) 100%),
+      linear-gradient(90deg, rgba(5,6,8,.5) 0%, rgba(5,6,8,0) 38%);
+  }
+
+  .hero-top{position:relative; z-index:4; padding:clamp(90px,16vh,160px) clamp(20px,4vw,48px) 0}
+  .eyebrow{
+    font-family:'Space Grotesk'; font-size:12px; font-weight:600; letter-spacing:.32em; text-transform:uppercase;
+    color:var(--blue-soft); display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:''; width:22px; height:1px; background:var(--blue-soft)}
+
+  .hero-bottom{
+    position:relative; z-index:4; padding:0 clamp(20px,4vw,48px) clamp(42px,6vh,72px);
+    display:flex; justify-content:space-between; align-items:flex-end; gap:40px;
+  }
+  .hero-copy{max-width:760px}
+  h1.title{
+    font-size:clamp(40px, 7.4vw, 92px); font-weight:700; line-height:.98; letter-spacing:-.02em;
+    text-wrap:balance;
+  }
+  h1.title .ent-mask{display:block}
+  h1.title em{font-style:normal; color:var(--blue-soft)}
+  p.lede{
+    margin-top:22px; max-width:460px; font-size:clamp(14.5px,1.6vw,17px); line-height:1.6;
+    color:rgba(255,255,255,.72); font-weight:400;
+  }
+  .hero-cta{display:flex; align-items:center; gap:16px; margin-top:34px}
+  .btn-primary{
+    padding:15px 30px; border-radius:999px; font-size:13.5px; font-weight:600; letter-spacing:.03em;
+    background:linear-gradient(180deg, #fff, #cfe1ff);
+    color:#06070a;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 10px 30px -10px rgba(47,141,255,.6);
+    transition:transform .35s var(--e-quint), box-shadow .35s var(--e-quint);
+  }
+  .btn-primary:hover{transform:translateY(-2px) scale(1.015); box-shadow:inset 0 1px 0 rgba(255,255,255,.9), 0 16px 34px -10px rgba(47,141,255,.85)}
+  .btn-ghost{
+    padding:15px 22px; font-size:13px; font-weight:500; color:rgba(255,255,255,.85);
+    border-bottom:1px solid rgba(255,255,255,.3); transition:border-color .3s, color .3s;
+  }
+  .btn-ghost:hover{color:#fff; border-color:#fff}
+
+  .hero-meta{
+    display:flex; flex-direction:column; align-items:flex-end; gap:10px; text-align:right;
+    font-family:'Space Grotesk'; flex-shrink:0;
+  }
+  .meta-figure{font-size:clamp(26px,3vw,36px); font-weight:600; color:#fff}
+  .meta-label{font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.5)}
+
+  .scroll-cue{
+    position:absolute; left:50%; bottom:22px; transform:translateX(-50%); z-index:4;
+    display:flex; flex-direction:column; align-items:center; gap:8px; opacity:.6;
+  }
+  .scroll-cue .line{width:1px; height:30px; background:linear-gradient(180deg, rgba(255,255,255,.7), transparent); overflow:hidden; position:relative}
+  .scroll-cue .line::after{
+    content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background:var(--blue-soft);
+    animation:cueDrop 2.2s var(--e-slow) infinite;
+  }
+  @keyframes cueDrop{0%{top:-100%}60%{top:100%}100%{top:100%}}
+  .scroll-cue span{font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.55)}
+
+  /* ---------- FEATURES ---------- */
+  .features{
+    position:relative; background:var(--ink);
+    padding:clamp(90px,14vh,140px) clamp(20px,4vw,48px) clamp(80px,12vh,120px);
+  }
+  .features-head{display:flex; justify-content:space-between; align-items:flex-end; gap:30px; margin-bottom:clamp(44px,7vh,72px); flex-wrap:wrap}
+  .features-head h2{font-size:clamp(28px,3.6vw,44px); font-weight:600; letter-spacing:-.01em; max-width:520px; line-height:1.08}
+  .features-head p{max-width:320px; font-size:14px; line-height:1.6; color:rgba(255,255,255,.55)}
+
+  .card-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px}
+  .glass-card{
+    position:relative; overflow:hidden; border-radius:18px; padding:28px 26px;
+    background: rgba(255,255,255,0.035);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+    min-height:260px; display:flex; flex-direction:column; justify-content:space-between;
+    transition:transform .5s var(--e-quint), background .4s;
+  }
+  .glass-card::before{
+    content:''; position:absolute; inset:0; border-radius:inherit; padding:1.4px;
+    background:linear-gradient(180deg,
+      rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.15) 20%,
+      rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%,
+      rgba(255,255,255,0.15) 80%, rgba(255,255,255,0.45) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+  .glass-card:hover{transform:translateY(-4px); background:rgba(255,255,255,.055)}
+  .card-index{font-family:'Space Grotesk'; font-size:12px; letter-spacing:.14em; color:var(--blue-soft)}
+  .card-title{font-family:'Space Grotesk'; font-size:19px; font-weight:600; margin-top:auto; padding-top:18px}
+  .card-text{font-size:13px; line-height:1.6; color:rgba(255,255,255,.58); margin-top:8px}
+  .card-glow{
+    position:absolute; width:180px; height:180px; border-radius:50%; right:-60px; top:-60px; z-index:0;
+    background:radial-gradient(circle, rgba(47,141,255,.25), transparent 70%); filter:blur(10px);
+  }
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    position:relative; margin:0 clamp(20px,4vw,48px) clamp(90px,12vh,120px);
+    border-radius:24px; overflow:hidden; min-height:320px;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    background:var(--ink-soft);
+  }
+  .cta-band img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55; filter:saturate(.9)}
+  .cta-band::after{content:''; position:absolute; inset:0; background:linear-gradient(180deg, rgba(7,8,10,.35), rgba(7,8,10,.85))}
+  .cta-inner{position:relative; z-index:2; padding:60px 24px; max-width:620px}
+  .cta-inner h2{font-size:clamp(26px,4vw,42px); font-weight:600; line-height:1.1; letter-spacing:-.01em}
+  .cta-inner p{margin-top:16px; font-size:14px; color:rgba(255,255,255,.65); line-height:1.6}
+  .cta-inner .hero-cta{justify-content:center; margin-top:28px}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding: 0 clamp(20px,4vw,48px) clamp(30px,5vh,48px)}
+  .foot-glass{
+    border-radius:20px; padding:clamp(26px,4vh,40px) clamp(22px,4vw,40px);
+    position:relative; overflow:hidden;
+    background: rgba(255,255,255,0.025);
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.08);
+    display:grid; grid-template-columns: 1.3fr repeat(3, 1fr); gap:28px;
+  }
+  .foot-glass::before{
+    content:''; position:absolute; inset:0; border-radius:inherit; padding:1.4px;
+    background:linear-gradient(180deg, rgba(255,255,255,.4) 0%, rgba(255,255,255,0) 35%, rgba(255,255,255,0) 65%, rgba(255,255,255,.4) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none;
+  }
+  .foot-brand .logo{margin-bottom:12px}
+  .foot-brand p{font-size:12.5px; color:rgba(255,255,255,.5); max-width:240px; line-height:1.6}
+  .foot-col h4{font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:14px; font-weight:500}
+  .foot-col a{display:block; font-size:13px; color:rgba(255,255,255,.72); margin-bottom:10px; transition:color .25s}
+  .foot-col a:hover{color:var(--blue-soft)}
+  .foot-bottom{display:flex; justify-content:space-between; margin-top:30px; padding-top:20px; border-top:1px solid rgba(255,255,255,.08); font-size:11.5px; color:rgba(255,255,255,.38)}
+
+  /* ---------- ENTRANCE KIT ---------- */
+  @keyframes ent-reveal{from{transform:translateY(115%)}to{transform:translateY(0)}}
+  @keyframes ent-rise{from{opacity:0; transform:translateY(var(--rise,10px))}to{opacity:1; transform:none}}
+  @keyframes ent-settle{from{opacity:0; transform:translateY(var(--rise,8px)) scale(.965)}to{opacity:1; transform:none}}
+  @keyframes ent-draw{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes ent-fade{from{opacity:0}to{opacity:1}}
+
+  .anim .hero-media img{opacity:0}
+  .anim .logo, .anim .links a, .anim .eyebrow, .anim p.lede, .anim .hero-cta, .anim .hero-meta, .anim .scroll-cue{opacity:0}
+  .anim .ent-mask{overflow:hidden; padding-top:.14em; margin-top:-.14em; display:block}
+  .anim .ent-line{transform:translateY(115%); will-change:transform; display:block}
+
+  .anim.play .hero-media img{animation:ent-fade 1.4s var(--e-slow) .05s both}
+  .anim.play .logo{--rise:8px; animation:ent-rise .6s var(--e-quint) .2s both}
+  .anim.play .links a{--rise:8px; animation:ent-rise .55s var(--e-quint) .3s both}
+  .anim.play .eyebrow{--rise:8px; animation:ent-rise .6s var(--e-quint) .4s both}
+  .anim.play .eyebrow .ent-line{animation:ent-reveal .8s var(--e-expo) .46s both}
+  .anim.play h1.title .ent-line{animation:ent-reveal 1s var(--e-expo) .55s both}
+  .anim.play p.lede{--rise:12px; animation:ent-rise .7s var(--e-quint) .82s both}
+  .anim.play .hero-cta{--rise:8px; animation:ent-settle .7s var(--e-quint) .94s both}
+  .anim.play .hero-meta{--rise:8px; animation:ent-rise .6s var(--e-quint) 1.0s both}
+  .anim.play .scroll-cue{--rise:6px; animation:ent-rise .6s var(--e-quint) 1.3s both}
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s var(--e-quint), transform .7s var(--e-quint)}
+  .reveal.is-visible{opacity:1; transform:none}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .links{display:none}
+    .burger{display:flex}
+    .card-grid{grid-template-columns:1fr 1fr}
+    .foot-glass{grid-template-columns:1fr 1fr; row-gap:28px}
+    .foot-brand{grid-column:1 / -1}
+  }
+  @media (max-width:720px){
+    .hero-bottom{flex-direction:column; align-items:flex-start; gap:24px}
+    .hero-meta{flex-direction:row; align-items:baseline; gap:8px; text-align:left}
+    .card-grid{grid-template-columns:1fr}
+    .foot-glass{grid-template-columns:1fr}
+    .features-head{flex-direction:column; align-items:flex-start}
+  }
+  @media (max-width:420px){
+    h1.title{font-size:34px}
+    .eyebrow{font-size:11px; letter-spacing:.24em}
+  }
+  @media (max-height:560px) and (orientation:landscape){
+    .hero{min-height:480px}
+    .hero-top{padding-top:70px}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .anim, .anim.play{animation:none !important}
+    .anim *, .anim.play *{animation:none !important; transition:none !important; opacity:1 !important; transform:none !important}
+    .reveal{opacity:1; transform:none}
+    .scroll-cue .line::after{animation:none}
+    .hero-glow{animation:none; opacity:.4}
+    .hero-stage{transform:none !important}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <a href="#top" class="logo"><span class="dot"></span>Shadow Current</a>
+    <div class="links">
+      <a href="#features">Material</a>
+      <a href="#drop">The Drop</a>
+      <a href="#" class="pill">Get Access</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Material</a>
+    <a href="#drop">The Drop</a>
+    <a href="#" class="pill">Get Access</a>
+  </div>
+
+  <main id="top">
+    <section class="hero" id="heroStage">
+      <div class="hero-stage" id="heroTilt">
+        <div class="hero-media">
+          <img src="assets/poster.jpg" alt="" aria-hidden="true" id="poster">
+          <video
+            id="heroVideo"
+            autoplay muted loop playsinline preload="auto"
+            poster="assets/poster.jpg"
+            aria-hidden="true">
+            <source src="assets/hero-horizontal.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hero-glow" aria-hidden="true"></div>
+      </div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <div class="hero-top">
+        <div class="eyebrow"><span class="ent-mask"><span class="ent-line">FW26 — Limited Run No. 004</span></span></div>
+      </div>
+
+      <div class="hero-bottom">
+        <div class="hero-copy">
+          <h1 class="title">
+            <span class="ent-mask"><span class="ent-line">Charged for</span></span>
+            <span class="ent-mask"><span class="ent-line">the <em>dark hours</em>.</span></span>
+          </h1>
+          <p class="lede">Static-dissipating weave, ink-black shell, a single live thread of conductive blue. Outerwear built to move the way the city does after midnight.</p>
+          <div class="hero-cta">
+            <a href="#drop" class="btn-primary">Reserve the drop</a>
+            <a href="#features" class="btn-ghost">See the material →</a>
+          </div>
+        </div>
+        <div class="hero-meta">
+          <span class="meta-figure">004 / 150</span>
+          <span class="meta-label">Pieces remaining</span>
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true">
+        <span class="line"></span>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="u-container">
+        <div class="features-head">
+          <h2 class="reveal">Three decisions that make the shell disappear into the dark — and hold its charge.</h2>
+          <p class="reveal">No branding on the face. No reflectives for the sake of it. Everything here earns its place in low light.</p>
+        </div>
+        <div class="card-grid">
+          <article class="glass-card reveal">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">01 / Shell</span>
+            <h3 class="card-title">Tri-layer ripstop, matte to the touch</h3>
+            <p class="card-text">A deep-black ripstop bonded to a windproof membrane, finished with a non-reflective matte coat that absorbs stray light instead of bouncing it.</p>
+          </article>
+          <article class="glass-card reveal">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">02 / Thread</span>
+            <h3 class="card-title">One live seam, conductive blue</h3>
+            <p class="card-text">A single stitched line of conductive-core thread traces the left panel — the only colour on the garment, and the only part that answers to static.</p>
+          </article>
+          <article class="glass-card reveal">
+            <div class="card-glow" aria-hidden="true"></div>
+            <span class="card-index">03 / Build</span>
+            <h3 class="card-title">Cut for motion, not for racks</h3>
+            <p class="card-text">Gusseted shoulders, a dropped back hem, and a two-way zip let the shell move through a full stride without pulling at the collar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-band u-container" id="drop">
+      <img src="assets/poster.jpg" alt="" aria-hidden="true">
+      <div class="cta-inner">
+        <h2 class="reveal">150 pieces. One restock, never.</h2>
+        <p class="reveal">Join the access list before the drop opens. No spam, no resale bots — just the hour it goes live.</p>
+        <div class="hero-cta reveal">
+          <a href="#" class="btn-primary">Reserve the drop</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-glass">
+      <div class="foot-brand">
+        <a href="#top" class="logo"><span class="dot"></span>Shadow Current</a>
+        <p>Technical outerwear in very small numbers. Designed and cut for movement after dark.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#drop">The Drop</a>
+        <a href="#features">Material</a>
+        <a href="#">Size Guide</a>
+      </div>
+      <div class="foot-col">
+        <h4>Studio</h4>
+        <a href="#">About</a>
+        <a href="#">Journal</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="foot-col">
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">TikTok</a>
+      </div>
+    </div>
+    <div class="foot-bottom u-container">
+      <span>© 2026 Shadow Current</span>
+      <span>Privacy · Terms</span>
+    </div>
+  </footer>
+
+<script>
+(function(){
+  // Entrance: wait for fonts, then play once and clean up
+  var html = document.documentElement;
+  if (html.classList.contains('anim')) {
+    var start = function(){
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+          html.classList.add('play');
+          setTimeout(function(){
+            html.classList.remove('anim','play');
+          }, 2200);
+        });
+      });
+    };
+    if (document.fonts && document.fonts.ready) {
+      var guard = setTimeout(start, 500);
+      document.fonts.ready.then(function(){ clearTimeout(guard); start(); });
+    } else {
+      start();
+    }
+  }
+
+  // Hero video: crossfade poster -> video once it can play
+  var video = document.getElementById('heroVideo');
+  var poster = document.getElementById('poster');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (video && !reduceMotion) {
+    var show = function(){ video.classList.add('is-ready'); };
+    if (video.readyState >= 3) show();
+    else video.addEventListener('canplay', show, { once:true });
+  } else if (video) {
+    video.pause();
+    video.removeAttribute('autoplay');
+  }
+
+  // Hero 3D tilt: the subject tracks the cursor like it's leaning out of the frame
+  var heroStage = document.getElementById('heroStage');
+  var heroTilt = document.getElementById('heroTilt');
+  if (heroStage && heroTilt && !reduceMotion) {
+    var targetRX = 0, targetRY = 0, curRX = 0, curRY = 0;
+    var maxTiltX = 7, maxTiltY = 9;
+    var isCoarse = window.matchMedia('(hover:none)').matches;
+    var t0 = performance.now();
+
+    function onPointerMove(e){
+      var rect = heroStage.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      targetRY = (px - 0.5) * maxTiltY * 2;
+      targetRX = (0.5 - py) * maxTiltX * 2;
+    }
+    function onPointerLeave(){ targetRX = 0; targetRY = 0; }
+
+    if (isCoarse) {
+      // No pointer: give it a slow autonomous drift so it still reads as alive
+      (function drift(now){
+        var t = (now - t0) / 1000;
+        targetRY = Math.sin(t * 0.35) * (maxTiltY * 0.5);
+        targetRX = Math.cos(t * 0.28) * (maxTiltX * 0.4);
+        requestAnimationFrame(drift);
+      })(t0);
+    } else {
+      heroStage.addEventListener('pointermove', onPointerMove);
+      heroStage.addEventListener('pointerleave', onPointerLeave);
+    }
+
+    (function tick(now){
+      curRX += (targetRX - curRX) * 0.06;
+      curRY += (targetRY - curRY) * 0.06;
+      var breathe = 1.05 + Math.sin((now - t0) / 1000 * 0.6) * 0.012;
+      heroTilt.style.transform =
+        'scale(' + breathe.toFixed(4) + ') rotateX(' + curRX.toFixed(2) + 'deg) rotateY(' + curRY.toFixed(2) + 'deg)';
+      requestAnimationFrame(tick);
+    })(t0);
+  }
+
+  // Navbar: solid backdrop once scrolled past the hero top so it stays legible over any section
+  var navbar = document.getElementById('navbar');
+  if (navbar) {
+    var setNavSolid = function(){
+      navbar.classList.toggle('is-solid', window.scrollY > 40);
+    };
+    setNavSolid();
+    window.addEventListener('scroll', setNavSolid, { passive:true });
+  }
+
+  // Mobile menu
+  var burger = document.getElementById('burgerBtn');
+  var nav = document.body;
+  if (burger) {
+    burger.addEventListener('click', function(){
+      var open = nav.classList.toggle('nav-open');
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(function(a){
+      a.addEventListener('click', function(){
+        nav.classList.remove('nav-open');
+        burger.setAttribute('aria-expanded','false');
+      });
+    });
+  }
+
+  // Scroll reveal
+  var items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry, i){
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var delay = (Array.prototype.indexOf.call(items, el) % 4) * 90;
+          setTimeout(function(){ el.classList.add('is-visible'); }, delay);
+          io.unobserve(el);
+        }
+      });
+    }, { threshold:.15 });
+    items.forEach(function(el){ io.observe(el); });
+  } else {
+    items.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  // Pause hero video when offscreen (perf)
+  if (video && 'IntersectionObserver' in window) {
+    var vio = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) { video.play().catch(function(){}); }
+        else { video.pause(); }
+      });
+    }, { threshold:0 });
+    vio.observe(video);
+  }
+})();
+</script>
+</body>
+</html>
